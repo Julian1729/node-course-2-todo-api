@@ -10,3 +10,6 @@ const {User} = require('./../server/models/user');
 Todo.remove({}).then((res)=>{
   console.log(res);
 });
+
+// Todo.findOneAndRemove removes first document found, and return it
+// Todo.findByIdAndRemove(), searches by id
