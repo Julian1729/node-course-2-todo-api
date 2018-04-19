@@ -311,3 +311,27 @@ describe('POST /users/login', () => {
   });
 
 });
+
+describe('DELETE /users/me/token', () => {
+
+  it('should remove auth token on logout', (done) => {
+    // Delete /users/me/token
+    request(app)
+      .delete('/users/me/token')
+      // set x-auth equal ro token
+      .set('x-auth', users[0].tokens[0].token)
+    // 200
+      .expect(200)
+    // find user in database, verify that token array has length to be zero
+      .end( (err, res) => {
+        if(err){
+          return done(err);
+        }
+        User.findById(users[0]._id).then((user) => {
+          expect(user.tokens.length).toBe(0);
+          done();
+        }).catch((e) => done(e));
+      });
+  });
+
+});
